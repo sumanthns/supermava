@@ -2,14 +2,15 @@ import json
 from mava_exception import MavaException
 import requests
 
-class ActionList(object):
+class MavaAction(object):
   def __init__(self, *args, **kwargs):
     self.validate(*args)
     self.execute(*args, **kwargs)
 
+class ActionList(MavaAction):
   def validate(self, *args):
     if not len(args) == 0:
-      raise Exception("List should not contain any args")
+      raise Exception("List should not contain any args.\nsupermava <env> list")
 
   def execute(self, *args, **kwargs):
     headers = {
@@ -27,14 +28,10 @@ class ActionList(object):
       raise ex 
 
 
-class ActionShow(object):
-  def __init__(self, *args, **kwargs):
-    self.validate(*args)
-    self.execute(*args, **kwargs)
-
+class ActionShow(MavaAction):
   def validate(self, *args):
     if not len(args) == 1:
-      raise Exception("Gimme one server at a time")
+      raise Exception("Gimme one server at a time.\nsupermava <env> show <slice_id>")
 
   def execute(self, *args, **kwargs):
     headers = {
@@ -50,4 +47,3 @@ class ActionShow(object):
             % (str(resp.status_code), resp.text))
     except Exception, ex:
       raise ex 
-
