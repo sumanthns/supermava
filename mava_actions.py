@@ -2,6 +2,7 @@ import json
 from mava_exception import MavaException
 import requests
 import random
+from templates.mava_template import MavaTemplate
 
 class MavaAction(object):
   def __init__(self, *args, **kwargs):
@@ -21,7 +22,7 @@ class ActionList(MavaAction):
       resp = requests.get("%s/servers" % kwargs["server_url"],\
           headers=headers, verify=False)
       if resp.status_code == 200:
-        print resp.json()
+        MavaTemplate().list(resp.json())
       else:
         raise Exception("Servers list Failed!!\nError: %s\nContent: %s"\
             % (str(resp.status_code), resp.text))
