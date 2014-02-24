@@ -70,7 +70,7 @@ class ActionBoot(MavaAction):
       resp = requests.post("%s/servers" % kwargs['server_url'],\
           data=json.dumps(data), headers=headers, verify=False)
       if resp.status_code == 202:
-        print resp.json()
+        SliceView().show(resp.json())
       else:
         raise Exception("Server boot failed.\n ErrorCode=%s\nContent=%s"\
             % (str(resp.status_code), resp.text))
