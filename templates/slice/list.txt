@@ -1,0 +1,7 @@
++-----------+-------+
+|Id         |  Name |
++-----------+-------+
+#for @server in @servers:
+| @server.id | @server.name |
+#end
++-----------+-------+

@@ -2,7 +2,7 @@ import json
 from mava_exception import MavaException
 import requests
 import random
-from templates.mava_template import MavaTemplate
+from views.mava_view import *
 
 class MavaAction(object):
   def __init__(self, *args, **kwargs):
@@ -22,7 +22,7 @@ class ActionList(MavaAction):
       resp = requests.get("%s/servers" % kwargs["server_url"],\
           headers=headers, verify=False)
       if resp.status_code == 200:
-        MavaTemplate().list(resp.json())
+        SliceView().list(resp.json())
       else:
         raise Exception("Servers list Failed!!\nError: %s\nContent: %s"\
             % (str(resp.status_code), resp.text))
@@ -43,7 +43,7 @@ class ActionShow(MavaAction):
       resp = requests.get("%s/servers/%s" % (kwargs['server_url'], args[0]),\
           headers=headers, verify=False)
       if resp.status_code == 200:
-        print resp.json()
+        SliceView().show(resp.json())
       else:
         raise Exception("Server Show failed.\nErrorCode=%s\nContent=%s"\
             % (str(resp.status_code), resp.text))

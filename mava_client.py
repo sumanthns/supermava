@@ -28,7 +28,6 @@ class MavaClient(object):
       resp = requests.post("%stokens" % self.auth_url,
           data=json.dumps(data), headers=headers)
       if resp.status_code == 200:
-        print "Mava is authenticated"
         self.parse_content(resp.json())
       else:
         raise Exception("Authentication failed!!")
