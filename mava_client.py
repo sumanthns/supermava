@@ -1,7 +1,8 @@
+import actions
+import inflection
 import json
 from mava_exception import MavaException
 import requests
-import mava_actions
 
 class MavaClient(object):
   def __init__(self, config):
@@ -43,9 +44,10 @@ class MavaClient(object):
     self.__dict__["server_url"] = service_dict["server_url"]
 
   def execute(self, *args):
-    action_ = "Action%s" % args[0].capitalize()
+    action_ = "Action%s" % inflection.camelize(args[0])
     action_args = args[1:]
+    module = next(module for module in actions.__modules__ if hasattr(module, action_))
     try:
-      getattr(mava_actions, action_)(*action_args, **self.__dict__)
+        getattr(module, action_)(*action_args, **self.__dict__)
     except Exception, ex:
-      raise  MavaException("Something went wrong with this action.\n%s" % ex.message)
+        raise MavaException("Something went wrong with this action.\n%s" % ex.message)

@@ -1,15 +1,14 @@
 import json
-from mava_exception import MavaException
 import requests
 import random
 from views.mava_view import *
 
-class MavaAction(object):
+class SliceAction(object):
   def __init__(self, *args, **kwargs):
     self.validate(*args)
     self.execute(*args, **kwargs)
 
-class ActionList(MavaAction):
+class ActionList(SliceAction):
   def validate(self, *args):
     if not len(args) == 0:
       raise Exception("List should not contain any args.\nHelp:supermava <env> list")
@@ -30,7 +29,7 @@ class ActionList(MavaAction):
       raise ex 
 
 
-class ActionShow(MavaAction):
+class ActionShow(SliceAction):
   def validate(self, *args):
     if not len(args) == 1:
       raise Exception("Gimme one server at a time.\nHelp:supermava <env> show <slice_id>")
@@ -50,7 +49,7 @@ class ActionShow(MavaAction):
     except Exception, ex:
       raise ex 
 
-class ActionBoot(MavaAction):
+class ActionBoot(SliceAction):
   def validate(self, *args):
     if not len(args) == 2:
       raise Exception("Cant boot with given arguments.\nHelp:supermava <env> boot <image_id> <flavor_id>")
